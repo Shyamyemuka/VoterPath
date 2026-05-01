@@ -4,7 +4,7 @@
 
 **Built for:** Hack2Skill PromptWars × Google Hackathon  
 **Challenge:** Election Process Education  
-**Live Demo:** [Firebase Hosting URL]
+**Live Demo:** https://voterpath-eight.vercel.app
 
 ---
 

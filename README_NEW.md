@@ -191,4 +191,4 @@ For issues or questions, please check:
 
 ---
 
-**Built with ❤️ for Indian Democracy** 🇮🇳
+**Built by Shyam for Indian Democracy** 🇮🇳
