@@ -86,44 +86,6 @@ export default function Home() {
     return () => window.removeEventListener("scroll", handleNavScroll);
   }, []);
 
-  // Hero parallax effect
-  useEffect(() => {
-    const handleHeroParallax = () => {
-      const heroWrapper = document.getElementById("hero-content-wrapper");
-      if (!heroWrapper) return;
-      const scrolled = window.scrollY;
-      if (scrolled < 1000) {
-        heroWrapper.style.transform = `translateY(${scrolled * 0.4}px)`;
-        heroWrapper.style.opacity = `${Math.max(0, 1 - scrolled / 600)}`;
-      }
-    };
-    window.addEventListener("scroll", handleHeroParallax);
-    return () => window.removeEventListener("scroll", handleHeroParallax);
-  }, []);
-
-  // Parallax cards effect
-  useEffect(() => {
-    const handleCardParallax = () => {
-      const scrolled = window.scrollY;
-      document.querySelectorAll(".parallax-card-up").forEach((el: Element) => {
-        (el as HTMLElement).style.setProperty(
-          "--scroll-offset-up",
-          `${scrolled * -0.05}px`,
-        );
-      });
-      document
-        .querySelectorAll(".parallax-card-down")
-        .forEach((el: Element) => {
-          (el as HTMLElement).style.setProperty(
-            "--scroll-offset-down",
-            `${scrolled * 0.05}px`,
-          );
-        });
-    };
-    window.addEventListener("scroll", handleCardParallax);
-    return () => window.removeEventListener("scroll", handleCardParallax);
-  }, []);
-
   return (
     <main className="min-h-screen bg-[#050505] selection:bg-[#FF4500] selection:text-white">
       {/* Global Noise Overlay */}
@@ -184,62 +146,105 @@ export default function Home() {
 
         {/* Floating Red Hands - Left */}
         <div className="absolute -left-[10%] top-[-10%] md:left-[-5%] md:top-[-15%] w-[50vw] md:w-[40vw] max-w-[800px] z-10 pointer-events-none mix-blend-hard-light opacity-80 animate-float-left">
-          <img
-            src="https://framerusercontent.com/images/KNhiA5A2ykNYqNkj04Hk6BVg5A.png?width=1540&height=1320"
-            alt="Hand Reaching"
-            className="w-full h-auto object-contain drop-shadow-lg"
-          />
+          <svg
+            viewBox="0 0 400 400"
+            className="w-full h-auto drop-shadow-lg"
+            xmlns="http://www.w3.org/2000/svg">
+            <g
+              fill="none"
+              stroke="#FF4500"
+              strokeWidth="8"
+              strokeLinecap="round"
+              strokeLinejoin="round">
+              {/* Palm */}
+              <ellipse cx="200" cy="250" rx="80" ry="100" />
+              {/* Thumb */}
+              <path d="M140 200 Q120 160 110 120 Q105 100 110 80" />
+              {/* Index */}
+              <path d="M160 140 Q150 80 150 40 Q150 15 160 0" />
+              {/* Middle */}
+              <path d="M200 120 Q200 50 200 0" />
+              {/* Ring */}
+              <path d="M240 140 Q250 80 250 40 Q250 15 240 0" />
+              {/* Pinky */}
+              <path d="M270 180 Q290 140 300 90 Q305 60 295 30" />
+            </g>
+          </svg>
         </div>
 
         {/* Floating Red Hands - Right */}
         <div className="absolute -right-[10%] bottom-[-10%] md:right-[-5%] md:bottom-[-5%] w-[45vw] md:w-[35vw] max-w-[700px] z-10 pointer-events-none mix-blend-hard-light opacity-80 animate-float-right">
-          <img
-            src="https://framerusercontent.com/images/X89VFCABCEjjZ4oLGa3PjbOmsA.png?width=1542&height=1002"
-            alt="Hand Receiving"
-            className="w-full h-auto object-contain drop-shadow-lg"
-          />
+          <svg
+            viewBox="0 0 400 400"
+            className="w-full h-auto drop-shadow-lg"
+            xmlns="http://www.w3.org/2000/svg">
+            <g
+              fill="none"
+              stroke="#FF4500"
+              strokeWidth="8"
+              strokeLinecap="round"
+              strokeLinejoin="round">
+              {/* Palm */}
+              <ellipse cx="200" cy="150" rx="80" ry="100" />
+              {/* Thumb */}
+              <path d="M260 200 Q280 240 290 280 Q295 300 290 320" />
+              {/* Index */}
+              <path d="M240 260 Q250 320 250 360 Q250 385 240 400" />
+              {/* Middle */}
+              <path d="M200 280 Q200 350 200 400" />
+              {/* Ring */}
+              <path d="M160 260 Q150 320 150 360 Q150 385 160 400" />
+              {/* Pinky */}
+              <path d="M130 220 Q110 280 100 330 Q95 360 105 390" />
+            </g>
+          </svg>
         </div>
 
         {/* Hero Content */}
         <div
-          id="hero-content-wrapper"
-          className="container mx-auto px-6 relative z-20 text-center flex flex-col items-center justify-center h-full max-w-4xl mx-auto">
-          <div className="reveal">
-            <h1
-              className="text-5xl md:text-7xl font-medium leading-[1.1] tracking-tight mb-6 text-[#ffe0e0] font-serif"
-              style={{ textShadow: "0 0 12px rgba(255,255,255,0.71)" }}>
-              VoterPath. <br />
-              <span className="italic font-light text-[#ffe0e0]">
-                Your AI Election Guide.
-              </span>
-            </h1>
-          </div>
-
-          <div className="reveal" style={{ transitionDelay: "200ms" }}>
-            <p
-              className="text-base md:text-lg text-[#ffe0e0]/90 max-w-lg mx-auto mb-16 font-light tracking-wide leading-relaxed"
-              style={{ textShadow: "0 0 12px rgba(255,255,255,0.71)" }}>
-              We turn the unseen into the unforgettable. Understand India&apos;s
-              democratic process with AI-powered guidance.
-            </p>
-          </div>
-
-          <div
-            className="reveal flex flex-col items-center gap-6"
-            style={{ transitionDelay: "400ms" }}>
-            <div className="relative group cursor-pointer">
-              <div className="absolute inset-0 bg-[#FF4500]/20 blur-xl rounded-full opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
-              <button
-                onClick={handleStartChat}
-                className="relative border border-white/20 bg-white/5 backdrop-blur-sm px-6 py-2 rounded-full flex items-center gap-3 text-xs md:text-sm text-white/80 uppercase tracking-widest hover:bg-white/10 transition-colors duration-300">
-                <span>Enter the Void</span>
-              </button>
+          className="container mx-auto px-6 relative z-20 text-center flex flex-col items-center justify-center h-full"
+          style={{
+            transform: `translateY(${scrollY * 0.4}px)`,
+            opacity: Math.max(0, 1 - scrollY / 600),
+          }}>
+          <div className="max-w-4xl mx-auto">
+            <div className="reveal">
+              <h1
+                className="text-5xl md:text-7xl font-medium leading-[1.1] tracking-tight mb-6 text-[#ffe0e0] font-serif"
+                style={{ textShadow: "0 0 12px rgba(255,255,255,0.71)" }}>
+                VoterPath. <br />
+                <span className="italic font-light text-[#ffe0e0]">
+                  Your AI Election Guide.
+                </span>
+              </h1>
             </div>
 
-            <div className="flex items-center gap-4 text-[10px] md:text-xs text-white/40 uppercase tracking-widest mt-8 font-mono">
-              <span>{currentTime}</span>
-              <span className="w-px h-3 bg-white/20"></span>
-              <span>Global</span>
+            <div className="reveal" style={{ transitionDelay: "200ms" }}>
+              <p
+                className="text-base md:text-lg text-[#ffe0e0]/90 max-w-lg mx-auto mb-16 font-light tracking-wide leading-relaxed"
+                style={{ textShadow: "0 0 12px rgba(255,255,255,0.71)" }}>
+                We turn the unseen into the unforgettable. Understand
+                India&apos;s democratic process with AI-powered guidance.
+              </p>
+            </div>
+
+            <div
+              className="reveal flex flex-col items-center gap-6"
+              style={{ transitionDelay: "400ms" }}>
+              <div className="relative group cursor-pointer">
+                <div className="absolute inset-0 bg-[#FF4500]/20 blur-xl rounded-full opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
+                <button
+                  onClick={handleStartChat}
+                  className="relative border border-white/20 bg-white/5 backdrop-blur-sm px-6 py-2 rounded-full flex items-center gap-3 text-xs md:text-sm text-white/80 uppercase tracking-widest hover:bg-white/10 transition-colors duration-300">
+                  <span>Enter the Void</span>
+                </button>
+              </div>
+
+              <div className="flex items-center gap-4 text-[10px] md:text-xs text-white/40 uppercase tracking-widest mt-8 font-mono">
+                <span>{currentTime}</span>
+                <span className="w-px h-3 bg-white/20"></span>
+                <span>Global</span>
+              </div>
             </div>
           </div>
         </div>
@@ -298,7 +303,9 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {/* Card 1 - Orange/Red */}
-            <div className="parallax-card-down reveal">
+            <div
+              style={{ transform: `translateY(${scrollY * 0.05}px)` }}
+              className="reveal">
               <div className="bg-[#FF4500] rounded-3xl p-8 md:p-12 aspect-[4/5] flex flex-col justify-between shadow-2xl hover:shadow-[0_20px_50px_rgba(255,69,0,0.3)] transition-all duration-500 group cursor-pointer">
                 <div className="flex justify-between items-start">
                   <div className="w-12 h-12 rounded-full bg-black/10 flex items-center justify-center group-hover:rotate-45 transition-transform duration-500">
@@ -326,9 +333,11 @@ export default function Home() {
 
             {/* Card 2 - Dark */}
             <div
-              className="parallax-card-up reveal md:mt-24"
-              style={{ transitionDelay: "150ms" }}>
-              <div className="bg-[#111] border border-white/10 rounded-3xl p-8 md:p-12 aspect-[4/5] flex flex-col justify-between shadow-2xl group cursor-pointer hover:border-[#FF4500]/50 transition-all duration-500">
+              style={{ transform: `translateY(${-scrollY * 0.05}px)` }}
+              className="reveal md:mt-24">
+              <div
+                className="bg-[#111] border border-white/10 rounded-3xl p-8 md:p-12 aspect-[4/5] flex flex-col justify-between shadow-2xl group cursor-pointer hover:border-[#FF4500]/50 transition-all duration-500"
+                style={{ transitionDelay: "150ms" }}>
                 <div className="flex justify-between items-start">
                   <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
                     <span className="text-white text-2xl">🤖</span>
@@ -453,14 +462,6 @@ export default function Home() {
 
         .animate-float-right {
           animation: float-right 14s ease-in-out infinite;
-        }
-
-        .parallax-card-up {
-          transform: translateY(var(--scroll-offset-up, 0px));
-        }
-
-        .parallax-card-down {
-          transform: translateY(var(--scroll-offset-down, 0px));
         }
       `}</style>
     </main>

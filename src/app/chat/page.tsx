@@ -100,31 +100,40 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#050505] to-[#0a0a0a]">
-      {/* Header */}
-      <div className="sticky top-0 z-50 border-b border-gray-800 backdrop-blur-md bg-[#050505]/80">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+    <div className="min-h-screen bg-[#050505] selection:bg-[#FF4500] selection:text-white">
+      {/* Global Noise Overlay */}
+      <div
+        className="fixed inset-0 z-50 pointer-events-none opacity-5 mix-blend-overlay"
+        style={{
+          backgroundImage:
+            'url("https://grainy-gradients.vercel.app/noise.svg")',
+          backgroundRepeat: "repeat",
+        }}></div>
+
+      {/* Navigation Header */}
+      <div className="sticky top-0 z-40 border-b border-white/5 backdrop-blur-md bg-[#050505]/80 transition-all duration-500">
+        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <button
             onClick={() => router.back()}
-            className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
+            className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-300">
             <ArrowLeft size={20} />
-            <span>Back</span>
+            <span className="text-sm">Back</span>
           </button>
 
-          <h1 className="text-xl font-bold text-transparent bg-gradient-to-r from-[#FF9933] via-white to-[#138808] bg-clip-text">
+          <h1 className="text-xl font-bold text-white font-serif">
             VoterPath AI Assistant
           </h1>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <button
               onClick={() => {}}
-              className="p-2 rounded-lg hover:bg-gray-800 transition-colors text-gray-400 hover:text-white"
+              className="p-2 rounded-lg hover:bg-white/10 transition-colors text-gray-400 hover:text-white"
               title="Voice input">
               <Volume2 size={20} />
             </button>
             <button
               onClick={() => {}}
-              className="p-2 rounded-lg hover:bg-gray-800 transition-colors text-gray-400 hover:text-white"
+              className="p-2 rounded-lg hover:bg-white/10 transition-colors text-gray-400 hover:text-white"
               title="Language">
               <Globe size={20} />
             </button>
@@ -133,7 +142,7 @@ export default function ChatPage() {
       </div>
 
       {/* Chat Area */}
-      <div className="container mx-auto px-4 py-8 flex flex-col items-center min-h-[calc(100vh-120px)]">
+      <div className="container mx-auto px-6 py-12 flex flex-col items-center min-h-[calc(100vh-140px)]">
         <ChatComponent
           config={{
             leftPerson: {
@@ -150,27 +159,36 @@ export default function ChatPage() {
           uiConfig={{
             containerWidth: 600,
             containerHeight: 500,
-            backgroundColor: "#0a0a0a",
+            backgroundColor: "#050505",
             leftChat: {
-              backgroundColor: "#1a1a1a",
+              backgroundColor: "#111111",
               textColor: "#f0f0f0",
               borderColor: "#333333",
               showBorder: true,
             },
             rightChat: {
-              backgroundColor: "#FF9933",
+              backgroundColor: "#FF4500",
               textColor: "#050505",
-              borderColor: "#FF7700",
+              borderColor: "#FF4500",
               showBorder: false,
             },
           }}
         />
 
         {/* Input Area */}
-        <div className="w-full max-w-2xl mt-8">
+        <div className="w-full max-w-2xl mt-12">
           <ClaudeChatInput onSendMessage={handleSendMessage} />
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="py-8 border-t border-white/5 bg-[#050505] relative overflow-hidden">
+        <div className="container mx-auto px-6 text-center">
+          <p className="text-xs text-gray-600">
+            © 2026 VoterPath. Empowering democracy through AI-driven knowledge.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }
