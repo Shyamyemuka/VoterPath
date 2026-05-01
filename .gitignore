@@ -19,4 +19,8 @@ firebase-debug.log
 .env*
 
 gendocs/
+/gendocs
+/docs
 docs/
+/.claude
+.claude/

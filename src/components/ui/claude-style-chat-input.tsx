@@ -51,10 +51,12 @@ interface ClaudeChatInputProps {
     pastedContent: AttachedFile[];
     isThinkingEnabled: boolean;
   }) => void;
+  placeholder?: string;
 }
 
 export const ClaudeChatInput: React.FC<ClaudeChatInputProps> = ({
   onSendMessage,
+  placeholder = "Ask about elections, voting, or anything else...",
 }) => {
   const [message, setMessage] = useState("");
   const [isDragging, setIsDragging] = useState(false);
@@ -122,7 +124,7 @@ export const ClaudeChatInput: React.FC<ClaudeChatInputProps> = ({
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Ask about elections, voting, or anything else..."
+                placeholder={placeholder}
                 className="w-full bg-transparent border-0 outline-none text-gray-900 dark:text-white text-base placeholder:text-gray-400 dark:placeholder:text-gray-600 resize-none overflow-hidden py-0 leading-relaxed block font-normal"
                 rows={1}
                 autoFocus

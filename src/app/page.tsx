@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
 
 export default function Home() {
   const router = useRouter();
@@ -232,7 +233,7 @@ export default function Home() {
               <button
                 onClick={handleStartChat}
                 className="relative border border-white/20 bg-white/5 backdrop-blur-sm px-6 py-2 rounded-full flex items-center gap-3 text-xs md:text-sm text-white/80 uppercase tracking-widest hover:bg-white/10 transition-colors duration-300">
-                <span>Enter the Void</span>
+                <span>Talk to us</span>
               </button>
             </div>
 
@@ -280,6 +281,52 @@ export default function Home() {
               <div className="text-4xl font-bold text-[#FF4500] mb-2">∞</div>
               <div className="text-sm text-gray-400 uppercase tracking-widest">
                 Questions
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Polling Booth Search Section */}
+      <section className="py-20 relative bg-[#050505]">
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="max-w-xl mx-auto text-center reveal">
+            <h3 className="text-2xl md:text-4xl text-white/90 mb-6 font-serif">
+              Locate Nearby Polling Booths
+            </h3>
+            <p className="text-gray-400 mb-8 font-light">
+              Enter your PIN code to find polling booths in your area.
+            </p>
+            <div className="flex flex-col gap-4">
+              <input
+                id="pincode-input"
+                type="text"
+                placeholder="Enter PIN Code"
+                className="w-full px-6 py-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-[#FF9933] transition-colors text-center text-lg tracking-widest"
+                maxLength={6}
+              />
+              <div className="flex flex-col sm:flex-row gap-4 mt-2">
+                <button
+                  onClick={() => {
+                    const pin = (document.getElementById('pincode-input') as HTMLInputElement)?.value;
+                    if (pin && pin.length >= 5) {
+                      window.open(`https://www.google.com/maps/search/polling+booths+near+${pin}`, '_blank');
+                    } else {
+                      alert('Please enter a valid PIN code');
+                    }
+                  }}
+                  className="flex-1 py-4 bg-[#FF9933]/10 hover:bg-[#FF9933]/20 border border-[#FF9933]/50 text-[#FF9933] rounded-xl transition-all duration-300 font-medium"
+                >
+                  Search based on PIN code
+                </button>
+                <button
+                  onClick={() => {
+                    window.open('https://electoralsearch.eci.gov.in/', '_blank');
+                  }}
+                  className="flex-1 py-4 bg-white/5 hover:bg-white/10 border border-white/20 text-white rounded-xl transition-all duration-300 font-medium"
+                >
+                  Identify polling booths on ECI
+                </button>
               </div>
             </div>
           </div>
@@ -396,15 +443,18 @@ export default function Home() {
             </div>
 
             <div className="flex flex-col gap-8 text-right">
-              <div className="flex flex-col gap-4 text-gray-400">
-                <a href="#" className="hover:text-white transition-colors">
-                  Explore
+              <div className="flex flex-col items-end gap-4 text-gray-400">
+                <a href="https://github.com/Shyamyemuka" target="_blank" className="flex items-center gap-3 hover:text-white transition-colors group">
+                  <FaGithub className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  <span>GitHub</span>
                 </a>
-                <a href="#" className="hover:text-white transition-colors">
-                  Learn
+                <a href="https://www.linkedin.com/in/shyamyemuka" target="_blank" className="flex items-center gap-3 hover:text-white transition-colors group">
+                  <FaLinkedin className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  <span>LinkedIn</span>
                 </a>
-                <a href="#" className="hover:text-white transition-colors">
-                  About
+                <a href="https://www.instagram.com/el_berlin304" target="_blank" className="flex items-center gap-3 hover:text-white transition-colors group">
+                  <FaInstagram className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  <span>Instagram</span>
                 </a>
               </div>
               <p className="text-sm text-gray-600">

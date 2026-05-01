@@ -23,12 +23,25 @@ export default function ChatPage() {
       id: 1,
       sender: "left",
       type: "text",
-      content:
-        "Hello! 👋 I'm your AI Election Guide. I'm here to help you understand India's democratic process, voter registration, polling booths, EVMs, and your voting rights. What would you like to know?",
+      content: t.chat.welcome,
     },
   ]);
   const [isLoading, setIsLoading] = useState(false);
   const messageIdRef = useRef(Math.max(...messages.map((m) => m.id), 0));
+
+  // Update welcome message when language changes
+  useEffect(() => {
+    setMessages((prev) => {
+      const newMessages = [...prev];
+      if (newMessages.length > 0 && newMessages[0].id === 1) {
+        newMessages[0] = {
+          ...newMessages[0],
+          content: t.chat.welcome,
+        };
+      }
+      return newMessages;
+    });
+  }, [t.chat.welcome]);
 
   const handleSendMessage = async (data: {
     message: string;
@@ -117,11 +130,11 @@ export default function ChatPage() {
             onClick={() => router.back()}
             className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-300">
             <ArrowLeft size={20} />
-            <span className="text-sm">Back</span>
+            <span className="text-sm">{t.common.back}</span>
           </button>
 
           <h1 className="text-xl font-bold text-white font-serif">
-            VoterPath AI Assistant
+            {t.chat.title}
           </h1>
 
           <div className="flex items-center gap-3">
@@ -131,12 +144,20 @@ export default function ChatPage() {
               title="Voice input">
               <Volume2 size={20} />
             </button>
-            <button
-              onClick={() => {}}
-              className="p-2 rounded-lg hover:bg-white/10 transition-colors text-gray-400 hover:text-white"
-              title="Language">
-              <Globe size={20} />
-            </button>
+            <div className="relative">
+              <select
+                value={language}
+                onChange={(e) => setLanguage(e.target.value as any)}
+                className="appearance-none bg-[#111111] text-gray-400 hover:text-white border border-white/10 rounded-lg px-3 py-2 pr-8 focus:outline-none focus:border-white/30 transition-colors cursor-pointer text-sm"
+                title="Select Language"
+              >
+                <option value="en">English</option>
+                <option value="hi">हिंदी (Hindi)</option>
+                <option value="te">తెలుగు (Telugu)</option>
+                <option value="ta">தமிழ் (Tamil)</option>
+                <option value="bn">বাংলা (Bengali)</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
@@ -146,7 +167,7 @@ export default function ChatPage() {
         <ChatComponent
           config={{
             leftPerson: {
-              name: "VoterPath Assistant",
+              name: t.chat.title,
               avatar:
                 "https://api.dicebear.com/7.x/avataaars/svg?seed=voterpath",
             },
@@ -177,7 +198,7 @@ export default function ChatPage() {
 
         {/* Input Area */}
         <div className="w-full max-w-2xl mt-12">
-          <ClaudeChatInput onSendMessage={handleSendMessage} />
+          <ClaudeChatInput onSendMessage={handleSendMessage} placeholder={t.chat.placeholder} />
         </div>
       </div>
 
@@ -185,7 +206,7 @@ export default function ChatPage() {
       <footer className="py-8 border-t border-white/5 bg-[#050505] relative overflow-hidden">
         <div className="container mx-auto px-6 text-center">
           <p className="text-xs text-gray-600">
-            © 2026 VoterPath. Empowering democracy through AI-driven knowledge.
+            {t.common.democracy}
           </p>
         </div>
       </footer>
