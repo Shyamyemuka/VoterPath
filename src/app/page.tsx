@@ -167,7 +167,8 @@ export default function Home() {
 
           <button
             onClick={handleStartChat}
-            className="inline-flex items-center justify-center px-6 py-3 rounded-full text-sm font-medium bg-white text-black hover:scale-105 hover:bg-gray-100 transition-all duration-300">
+            aria-label="Talk to us and start chat"
+            className="inline-flex items-center justify-center px-6 py-3 rounded-full text-sm font-medium bg-white text-black hover:scale-105 hover:bg-gray-100 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#FF9933] focus:ring-offset-2 focus:ring-offset-[#050505]">
             Talk to us
           </button>
         </div>
@@ -187,7 +188,8 @@ export default function Home() {
         <div className="absolute -left-[10%] top-[-10%] md:left-[-5%] md:top-[-15%] w-[50vw] md:w-[40vw] max-w-[800px] z-10 pointer-events-none mix-blend-hard-light opacity-80 animate-float-left">
           <img
             src="https://framerusercontent.com/images/KNhiA5A2ykNYqNkj04Hk6BVg5A.png?width=1540&height=1320"
-            alt="Hand Reaching"
+            alt=""
+            aria-hidden="true"
             className="w-full h-auto object-contain drop-shadow-lg"
           />
         </div>
@@ -196,7 +198,8 @@ export default function Home() {
         <div className="absolute -right-[10%] bottom-[-10%] md:right-[-5%] md:bottom-[-5%] w-[45vw] md:w-[35vw] max-w-[700px] z-10 pointer-events-none mix-blend-hard-light opacity-80 animate-float-right">
           <img
             src="https://framerusercontent.com/images/X89VFCABCEjjZ4oLGa3PjbOmsA.png?width=1542&height=1002"
-            alt="Hand Receiving"
+            alt=""
+            aria-hidden="true"
             className="w-full h-auto object-contain drop-shadow-lg"
           />
         </div>
@@ -232,7 +235,8 @@ export default function Home() {
               <div className="absolute inset-0 bg-[#FF4500]/20 blur-xl rounded-full opacity-0 group-hover:opacity-50 transition-opacity duration-500"></div>
               <button
                 onClick={handleStartChat}
-                className="relative border border-white/20 bg-white/5 backdrop-blur-sm px-6 py-2 rounded-full flex items-center gap-3 text-xs md:text-sm text-white/80 uppercase tracking-widest hover:bg-white/10 transition-colors duration-300">
+                aria-label="Talk to us and start chat"
+                className="relative border border-white/20 bg-white/5 backdrop-blur-sm px-6 py-2 rounded-full flex items-center gap-3 text-xs md:text-sm text-white/80 uppercase tracking-widest hover:bg-white/10 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white">
                 <span>Talk to us</span>
               </button>
             </div>
@@ -253,7 +257,7 @@ export default function Home() {
             <h2 className="text-3xl md:text-5xl lg:text-6xl leading-tight text-white/90 mb-12 font-serif">
               Empowering voters through AI-driven knowledge.
             </h2>
-            <p className="text-xl md:text-2xl text-gray-500 leading-relaxed font-light">
+            <p className="text-xl md:text-2xl text-gray-300 leading-relaxed font-light">
               Clear information is clarity. We provide accessible guidance so
               your voting voice resonates with confidence.
             </p>
@@ -270,7 +274,7 @@ export default function Home() {
             <div
               className="reveal text-center"
               style={{ transitionDelay: "100ms" }}>
-              <div className="text-4xl font-bold text-[#138808] mb-2">5</div>
+              <div className="text-4xl font-bold text-[#4ade80] mb-2">5</div>
               <div className="text-sm text-gray-400 uppercase tracking-widest">
                 Languages
               </div>
@@ -298,11 +302,13 @@ export default function Home() {
               Enter your PIN code to find polling booths in your area.
             </p>
             <div className="flex flex-col gap-4">
+              <label htmlFor="pincode-input" className="sr-only">Enter PIN Code</label>
               <input
                 id="pincode-input"
                 type="text"
                 placeholder="Enter PIN Code"
-                className="w-full px-6 py-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-[#FF9933] transition-colors text-center text-lg tracking-widest"
+                aria-label="Enter PIN Code"
+                className="w-full px-6 py-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:border-[#FF9933] focus:ring-1 focus:ring-[#FF9933] transition-colors text-center text-lg tracking-widest"
                 maxLength={6}
               />
               <div className="flex flex-col sm:flex-row gap-4 mt-2">
@@ -310,20 +316,22 @@ export default function Home() {
                   onClick={() => {
                     const pin = (document.getElementById('pincode-input') as HTMLInputElement)?.value;
                     if (pin && pin.length >= 5) {
-                      window.open(`https://www.google.com/maps/search/polling+booths+near+${pin}`, '_blank');
+                      window.open(`https://www.google.com/maps/search/polling+booths+near+${pin}`, '_blank', 'noopener,noreferrer');
                     } else {
                       alert('Please enter a valid PIN code');
                     }
                   }}
-                  className="flex-1 py-4 bg-[#FF9933]/10 hover:bg-[#FF9933]/20 border border-[#FF9933]/50 text-[#FF9933] rounded-xl transition-all duration-300 font-medium"
+                  aria-label="Search based on PIN code"
+                  className="flex-1 py-4 bg-[#FF9933]/10 hover:bg-[#FF9933]/20 border border-[#FF9933]/50 text-[#FF9933] rounded-xl transition-all duration-300 font-medium focus:outline-none focus:ring-2 focus:ring-[#FF9933]"
                 >
                   Search based on PIN code
                 </button>
                 <button
                   onClick={() => {
-                    window.open('https://electoralsearch.eci.gov.in/', '_blank');
+                    window.open('https://electoralsearch.eci.gov.in/', '_blank', 'noopener,noreferrer');
                   }}
-                  className="flex-1 py-4 bg-white/5 hover:bg-white/10 border border-white/20 text-white rounded-xl transition-all duration-300 font-medium"
+                  aria-label="Identify polling booths on ECI"
+                  className="flex-1 py-4 bg-white/5 hover:bg-white/10 border border-white/20 text-white rounded-xl transition-all duration-300 font-medium focus:outline-none focus:ring-2 focus:ring-white"
                 >
                   Identify polling booths on ECI
                 </button>
@@ -425,7 +433,8 @@ export default function Home() {
             </p>
             <button
               onClick={handleStartChat}
-              className="px-8 py-4 bg-[#FF9933] hover:bg-[#FF7700] text-[#050505] font-semibold rounded-full transition-all duration-300 transform hover:scale-105">
+              aria-label="Talk to us Now"
+              className="px-8 py-4 bg-[#FF9933] hover:bg-[#FF7700] text-[#050505] font-semibold rounded-full transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-[#FF9933] focus:ring-offset-2 focus:ring-offset-[#050505]">
               Talk to us Now →
             </button>
           </div>
@@ -444,16 +453,16 @@ export default function Home() {
 
             <div className="flex flex-col gap-8 text-right">
               <div className="flex flex-col items-end gap-4 text-gray-400">
-                <a href="https://github.com/Shyamyemuka" target="_blank" className="flex items-center gap-3 hover:text-white transition-colors group">
-                  <FaGithub className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <a href="https://github.com/Shyamyemuka" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" className="flex items-center gap-3 hover:text-white transition-colors group">
+                  <FaGithub className="w-5 h-5 group-hover:scale-110 transition-transform" aria-hidden="true" />
                   <span>GitHub</span>
                 </a>
-                <a href="https://www.linkedin.com/in/shyamyemuka" target="_blank" className="flex items-center gap-3 hover:text-white transition-colors group">
-                  <FaLinkedin className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <a href="https://www.linkedin.com/in/shyamyemuka" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile" className="flex items-center gap-3 hover:text-white transition-colors group">
+                  <FaLinkedin className="w-5 h-5 group-hover:scale-110 transition-transform" aria-hidden="true" />
                   <span>LinkedIn</span>
                 </a>
-                <a href="https://www.instagram.com/el_berlin304" target="_blank" className="flex items-center gap-3 hover:text-white transition-colors group">
-                  <FaInstagram className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                <a href="https://www.instagram.com/el_berlin304" target="_blank" rel="noopener noreferrer" aria-label="Instagram Profile" className="flex items-center gap-3 hover:text-white transition-colors group">
+                  <FaInstagram className="w-5 h-5 group-hover:scale-110 transition-transform" aria-hidden="true" />
                   <span>Instagram</span>
                 </a>
               </div>

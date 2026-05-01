@@ -128,8 +128,9 @@ export default function ChatPage() {
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <button
             onClick={() => router.back()}
-            className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-300">
-            <ArrowLeft size={20} />
+            aria-label="Go back"
+            className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-white rounded-md px-2 py-1">
+            <ArrowLeft size={20} aria-hidden="true" />
             <span className="text-sm">{t.common.back}</span>
           </button>
 
@@ -140,15 +141,18 @@ export default function ChatPage() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => {}}
-              className="p-2 rounded-lg hover:bg-white/10 transition-colors text-gray-400 hover:text-white"
+              aria-label="Voice input"
+              className="p-2 rounded-lg hover:bg-white/10 transition-colors text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
               title="Voice input">
-              <Volume2 size={20} />
+              <Volume2 size={20} aria-hidden="true" />
             </button>
             <div className="relative">
+              <label htmlFor="language-select" className="sr-only">Select Language</label>
               <select
+                id="language-select"
                 value={language}
                 onChange={(e) => setLanguage(e.target.value as any)}
-                className="appearance-none bg-[#111111] text-gray-400 hover:text-white border border-white/10 rounded-lg px-3 py-2 pr-8 focus:outline-none focus:border-white/30 transition-colors cursor-pointer text-sm"
+                className="appearance-none bg-[#111111] text-gray-400 hover:text-white border border-white/10 rounded-lg px-3 py-2 pr-8 focus:outline-none focus:border-white/30 focus:ring-2 focus:ring-white transition-colors cursor-pointer text-sm"
                 title="Select Language"
               >
                 <option value="en">English</option>
