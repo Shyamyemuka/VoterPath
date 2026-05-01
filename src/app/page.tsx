@@ -2,15 +2,30 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Home() {
   const router = useRouter();
+  const { isAuthenticated, logOut } = useAuth();
   const [scrollY, setScrollY] = useState(0);
   const [currentTime, setCurrentTime] = useState("11:11 PM");
 
   const handleStartChat = () => {
-    router.push("/chat");
+    if (isAuthenticated) {
+      router.push("/chat");
+    } else {
+      router.push("/auth/signin");
+    }
+  };
+
+  const handleLogOut = async () => {
+    try {
+      await logOut();
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
   };
 
   // Update time
@@ -165,12 +180,37 @@ export default function Home() {
             </a>
           </div>
 
-          <button
-            onClick={handleStartChat}
-            aria-label="Talk to us and start chat"
-            className="inline-flex items-center justify-center px-6 py-3 rounded-full text-sm font-medium bg-white text-black hover:scale-105 hover:bg-gray-100 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#FF9933] focus:ring-offset-2 focus:ring-offset-[#050505]">
-            Talk to us
-          </button>
+          <div className="flex items-center gap-4">
+            {isAuthenticated ? (
+              <>
+                <button
+                  onClick={handleStartChat}
+                  aria-label="Talk to us and start chat"
+                  className="inline-flex items-center justify-center px-6 py-3 rounded-full text-sm font-medium bg-white text-black hover:scale-105 hover:bg-gray-100 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#FF9933] focus:ring-offset-2 focus:ring-offset-[#050505]">
+                  Chat
+                </button>
+                <button
+                  onClick={handleLogOut}
+                  className="inline-flex items-center justify-center px-6 py-3 rounded-full text-sm font-medium text-white border border-white/30 hover:border-white hover:bg-white/5 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white">
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/auth/signin"
+                  className="inline-flex items-center justify-center px-6 py-3 rounded-full text-sm font-medium text-white border border-white/30 hover:border-white hover:bg-white/5 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white">
+                  Sign In
+                </Link>
+                <button
+                  onClick={handleStartChat}
+                  aria-label="Talk to us and start chat"
+                  className="inline-flex items-center justify-center px-6 py-3 rounded-full text-sm font-medium bg-white text-black hover:scale-105 hover:bg-gray-100 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#FF9933] focus:ring-offset-2 focus:ring-offset-[#050505]">
+                  Talk to us
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </nav>
 
@@ -302,7 +342,9 @@ export default function Home() {
               Enter your PIN code to find polling booths in your area.
             </p>
             <div className="flex flex-col gap-4">
-              <label htmlFor="pincode-input" className="sr-only">Enter PIN Code</label>
+              <label htmlFor="pincode-input" className="sr-only">
+                Enter PIN Code
+              </label>
               <input
                 id="pincode-input"
                 type="text"
@@ -314,25 +356,35 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-4 mt-2">
                 <button
                   onClick={() => {
-                    const pin = (document.getElementById('pincode-input') as HTMLInputElement)?.value;
+                    const pin = (
+                      document.getElementById(
+                        "pincode-input",
+                      ) as HTMLInputElement
+                    )?.value;
                     if (pin && pin.length >= 5) {
-                      window.open(`https://www.google.com/maps/search/polling+booths+near+${pin}`, '_blank', 'noopener,noreferrer');
+                      window.open(
+                        `https://www.google.com/maps/search/polling+booths+near+${pin}`,
+                        "_blank",
+                        "noopener,noreferrer",
+                      );
                     } else {
-                      alert('Please enter a valid PIN code');
+                      alert("Please enter a valid PIN code");
                     }
                   }}
                   aria-label="Search based on PIN code"
-                  className="flex-1 py-4 bg-[#FF9933]/10 hover:bg-[#FF9933]/20 border border-[#FF9933]/50 text-[#FF9933] rounded-xl transition-all duration-300 font-medium focus:outline-none focus:ring-2 focus:ring-[#FF9933]"
-                >
+                  className="flex-1 py-4 bg-[#FF9933]/10 hover:bg-[#FF9933]/20 border border-[#FF9933]/50 text-[#FF9933] rounded-xl transition-all duration-300 font-medium focus:outline-none focus:ring-2 focus:ring-[#FF9933]">
                   Search based on PIN code
                 </button>
                 <button
                   onClick={() => {
-                    window.open('https://electoralsearch.eci.gov.in/', '_blank', 'noopener,noreferrer');
+                    window.open(
+                      "https://electoralsearch.eci.gov.in/",
+                      "_blank",
+                      "noopener,noreferrer",
+                    );
                   }}
                   aria-label="Identify polling booths on ECI"
-                  className="flex-1 py-4 bg-white/5 hover:bg-white/10 border border-white/20 text-white rounded-xl transition-all duration-300 font-medium focus:outline-none focus:ring-2 focus:ring-white"
-                >
+                  className="flex-1 py-4 bg-white/5 hover:bg-white/10 border border-white/20 text-white rounded-xl transition-all duration-300 font-medium focus:outline-none focus:ring-2 focus:ring-white">
                   Identify polling booths on ECI
                 </button>
               </div>
@@ -453,16 +505,40 @@ export default function Home() {
 
             <div className="flex flex-col gap-8 text-right">
               <div className="flex flex-col items-end gap-4 text-gray-400">
-                <a href="https://github.com/Shyamyemuka" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" className="flex items-center gap-3 hover:text-white transition-colors group">
-                  <FaGithub className="w-5 h-5 group-hover:scale-110 transition-transform" aria-hidden="true" />
+                <a
+                  href="https://github.com/Shyamyemuka"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GitHub Profile"
+                  className="flex items-center gap-3 hover:text-white transition-colors group">
+                  <FaGithub
+                    className="w-5 h-5 group-hover:scale-110 transition-transform"
+                    aria-hidden="true"
+                  />
                   <span>GitHub</span>
                 </a>
-                <a href="https://www.linkedin.com/in/shyamyemuka" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile" className="flex items-center gap-3 hover:text-white transition-colors group">
-                  <FaLinkedin className="w-5 h-5 group-hover:scale-110 transition-transform" aria-hidden="true" />
+                <a
+                  href="https://www.linkedin.com/in/shyamyemuka"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn Profile"
+                  className="flex items-center gap-3 hover:text-white transition-colors group">
+                  <FaLinkedin
+                    className="w-5 h-5 group-hover:scale-110 transition-transform"
+                    aria-hidden="true"
+                  />
                   <span>LinkedIn</span>
                 </a>
-                <a href="https://www.instagram.com/el_berlin304" target="_blank" rel="noopener noreferrer" aria-label="Instagram Profile" className="flex items-center gap-3 hover:text-white transition-colors group">
-                  <FaInstagram className="w-5 h-5 group-hover:scale-110 transition-transform" aria-hidden="true" />
+                <a
+                  href="https://www.instagram.com/el_berlin304"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram Profile"
+                  className="flex items-center gap-3 hover:text-white transition-colors group">
+                  <FaInstagram
+                    className="w-5 h-5 group-hover:scale-110 transition-transform"
+                    aria-hidden="true"
+                  />
                   <span>Instagram</span>
                 </a>
               </div>

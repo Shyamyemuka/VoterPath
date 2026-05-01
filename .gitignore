@@ -18,6 +18,10 @@ firebase-debug.log
 .firebaserc
 .env*
 
+AUTH_IMPLEMENTATION_COMPLETE.md
+AUTHENTICATION_SETUP.md
+QUICK_START_AUTH.md
+
 gendocs/
 /gendocs
 /docs

@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Volume2, Globe } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { ClaudeChatInput } from "@/components/ui/claude-style-chat-input";
 import ChatComponent from "@/components/ui/chat-interface";
 import { getGeminiClient, SYSTEM_PROMPTS } from "@/lib/gemini";
@@ -18,6 +19,7 @@ interface ChatMessage {
 export default function ChatPage() {
   const router = useRouter();
   const { language, setLanguage, t } = useLanguage();
+  const { user, logOut, loading, isAuthenticated } = useAuth();
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: 1,
@@ -28,6 +30,37 @@ export default function ChatPage() {
   ]);
   const [isLoading, setIsLoading] = useState(false);
   const messageIdRef = useRef(Math.max(...messages.map((m) => m.id), 0));
+
+  // Redirect if not authenticated
+  useEffect(() => {
+    if (!loading && !isAuthenticated) {
+      router.push("/auth/signin");
+    }
+  }, [loading, isAuthenticated, router]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#050505] flex items-center justify-center">
+        <div className="text-center text-white">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+          <p className="mt-4 text-lg">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return null;
+  }
+
+  const handleLogOut = async () => {
+    try {
+      await logOut();
+      router.push("/");
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
 
   // Update welcome message when language changes
   useEffect(() => {
@@ -147,20 +180,39 @@ export default function ChatPage() {
               <Volume2 size={20} aria-hidden="true" />
             </button>
             <div className="relative">
-              <label htmlFor="language-select" className="sr-only">Select Language</label>
+              <label htmlFor="language-select" className="sr-only">
+                Select Language
+              </label>
               <select
                 id="language-select"
                 value={language}
                 onChange={(e) => setLanguage(e.target.value as any)}
                 className="appearance-none bg-[#111111] text-gray-400 hover:text-white border border-white/10 rounded-lg px-3 py-2 pr-8 focus:outline-none focus:border-white/30 focus:ring-2 focus:ring-white transition-colors cursor-pointer text-sm"
-                title="Select Language"
-              >
+                title="Select Language">
                 <option value="en">English</option>
                 <option value="hi">हिंदी (Hindi)</option>
                 <option value="te">తెలుగు (Telugu)</option>
                 <option value="ta">தமிழ் (Tamil)</option>
                 <option value="bn">বাংলা (Bengali)</option>
               </select>
+            </div>
+            <div className="relative group">
+              <button
+                className="text-gray-400 hover:text-white text-sm px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
+                title={user?.email}>
+                {user?.email?.split("@")[0] || "User"}
+              </button>
+              <div className="absolute right-0 mt-2 w-48 bg-[#111111] border border-white/10 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <div className="px-4 py-2 border-b border-white/10">
+                  <p className="text-xs text-gray-500">Signed in as</p>
+                  <p className="text-sm text-white truncate">{user?.email}</p>
+                </div>
+                <button
+                  onClick={handleLogOut}
+                  className="w-full text-left px-4 py-2 text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-colors">
+                  Sign Out
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -202,16 +254,17 @@ export default function ChatPage() {
 
         {/* Input Area */}
         <div className="w-full max-w-2xl mt-12">
-          <ClaudeChatInput onSendMessage={handleSendMessage} placeholder={t.chat.placeholder} />
+          <ClaudeChatInput
+            onSendMessage={handleSendMessage}
+            placeholder={t.chat.placeholder}
+          />
         </div>
       </div>
 
       {/* Footer */}
       <footer className="py-8 border-t border-white/5 bg-[#050505] relative overflow-hidden">
         <div className="container mx-auto px-6 text-center">
-          <p className="text-xs text-gray-600">
-            {t.common.democracy}
-          </p>
+          <p className="text-xs text-gray-600">{t.common.democracy}</p>
         </div>
       </footer>
     </div>

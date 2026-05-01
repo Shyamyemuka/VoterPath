@@ -1,5 +1,6 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAnalytics, isSupported } from "firebase/analytics";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDFEmFHHsa0BdLld_r1Ogi3SCZ-Qd6WRhY",
@@ -20,4 +21,7 @@ if (typeof window !== "undefined") {
   isSupported().then((yes) => yes && (analytics = getAnalytics(app)));
 }
 
-export { app, analytics };
+// Initialize Auth
+const auth = getAuth(app);
+
+export { app, analytics, auth };
